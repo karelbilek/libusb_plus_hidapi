@@ -14,4 +14,4 @@ Code is under GNU LGPL 2.1.
 
 * (C) Karel Bilek 2017
 * (c) 2017 Jason T. Harris
-* (C) 2017 Péter Szilágyi (also see https://github.com/karalabe/hid for comprehensive list)
+* (C) 2017 Péter Szilágyi (also see https://github.com/karalabe/hid for hid acknowledgements)

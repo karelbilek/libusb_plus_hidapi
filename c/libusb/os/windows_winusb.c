@@ -103,6 +103,9 @@ static int composite_abort_control(int sub_api, struct usbi_transfer *itransfer)
 static int composite_reset_device(int sub_api, struct libusb_device_handle *dev_handle);
 static int composite_copy_transfer_data(int sub_api, struct usbi_transfer *itransfer, uint32_t io_size);
 
+#if defined(interface)
+#undef interface
+#endif
 
 // Global variables
 int windows_version = WINDOWS_UNDEFINED;

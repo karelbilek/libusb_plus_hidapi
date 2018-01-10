@@ -7,7 +7,7 @@ Golang wrapper for libusb-1.0
 //-----------------------------------------------------------------------------
 
 // Package libusb provides go wrappers for libusb-1.0
-package libusb
+package usb_hid
 
 /*
 #cgo pkg-config: libusb-1.0

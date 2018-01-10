@@ -8,7 +8,7 @@
 
 // +build linux,cgo darwin,!ios,cgo windows,cgo
 
-package hid
+package usb_hid
 
 /*
 #cgo CFLAGS: -I./hidapi/hidapi

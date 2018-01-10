@@ -9,7 +9,7 @@
 // +build !ios
 // +build linux darwin windows
 
-package hid
+package usb_hid
 
 /*
 #include <wchar.h>

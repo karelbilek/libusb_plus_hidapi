@@ -10,8 +10,9 @@ Golang wrapper for libusb-1.0
 package usb_hid
 
 /*
-#cgo pkg-config: libusb-1.0
-#include <libusb-1.0/libusb.h>
+// +build linux,cgo darwin,!ios,cgo windows,cgo
+
+#include "./c/libusb/libusb.h"
 
 // When a C struct ends with a zero-sized field, but the struct itself is not zero-sized,
 // Go code can no longer refer to the zero-sized field. Any such references will have to be rewritten.

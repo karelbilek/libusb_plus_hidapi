@@ -11,38 +11,57 @@
 package usb_hid
 
 /*
-#cgo CFLAGS: -I./hidapi/hidapi
+#cgo CFLAGS: -I./c/hidapi/hidapi
 
-#cgo linux CFLAGS: -I./libusb/libusb -DDEFAULT_VISIBILITY="" -DOS_LINUX -D_GNU_SOURCE -DPOLL_NFDS_TYPE=int
+#cgo linux CFLAGS: -I./c/libusb -DDEFAULT_VISIBILITY="" -DOS_LINUX -D_GNU_SOURCE -DPOLL_NFDS_TYPE=int
 #cgo linux,!android LDFLAGS: -lrt
-#cgo darwin CFLAGS: -DOS_DARWIN
-#cgo darwin LDFLAGS: -framework CoreFoundation -framework IOKit
-#cgo windows CFLAGS: -DOS_WINDOWS
+#cgo darwin CFLAGS: -I./c/libusb -DOS_DARWIN -DDEFAULT_VISIBILITY="" -DPOLL_NFDS_TYPE="unsigned int"
+#cgo darwin LDFLAGS: -framework CoreFoundation -framework IOKit -lobjc
+#cgo windows CFLAGS: -I./c/libusb -DOS_WINDOWS -DDEFAULT_VISIBILITY="" -DPOLL_NFDS_TYPE="unsigned int"
 #cgo windows LDFLAGS: -lsetupapi
+
 
 #ifdef OS_LINUX
 	#include <sys/poll.h>
-	#include "os/threads_posix.c"
-	#include "os/poll_posix.c"
 
-	#include "os/linux_usbfs.c"
-	#include "os/linux_netlink.c"
-
-	#include "core.c"
-	#include "descriptor.c"
-	#include "hotplug.c"
-	#include "io.c"
-	#include "strerror.c"
-	#include "sync.c"
-
-	#include "hidapi/libusb/hid.c"
+	#include "c/libusb/os/threads_posix.c"
+	#include "c/libusb/os/poll_posix.c"
+	#include "c/libusb/os/linux_usbfs.c"
+	#include "c/libusb/os/linux_netlink.c"
 #elif OS_DARWIN
-	#include "hidapi/mac/hid.c"
+	#include <sys/poll.h>
+
+	#include "c/libusb/os/threads_posix.c"
+	#include "c/libusb/os/poll_posix.c"
+	#include "c/libusb/os/darwin_usb.c"
 #elif OS_WINDOWS
-	#include "hidapi/windows/hid.c"
+	#include <oledlg.h>
+
+  #include "c/libusb/os/poll_windows.c"
+	#include "c/libusb/os/threads_windows.c"
 #endif
+
+#include "c/libusb/core.c"
+#include "c/libusb/descriptor.c"
+#include "c/libusb/hotplug.c"
+#include "c/libusb/io.c"
+#include "c/libusb/strerror.c"
+#include "c/libusb/sync.c"
+
+#ifdef OS_LINUX
+	#include "c/hidapi/libusb/hid.c"
+#elif OS_DARWIN
+	#include "c/hidapi/mac/hid.c"
+#elif OS_WINDOWS
+	#include "c/hidapi/windows/hid.c"
+
+	#include "c/libusb/os/windows_nt_common.c"
+	#include "c/libusb/os/windows_winusb.c"
+#endif
+
 */
 import "C"
+
 import (
 	"errors"
 	"runtime"

@@ -160,7 +160,7 @@ func Enumerate(vendorID uint16, productID uint16) []DeviceInfo {
 }
 
 // Open connects to an HID device by its path name.
-func (info DeviceInfo) Open() (*Device, error) {
+func (info DeviceInfo) Open() (*HidDevice, error) {
 	path := C.CString(info.Path)
 	defer C.free(unsafe.Pointer(path))
 
@@ -168,14 +168,14 @@ func (info DeviceInfo) Open() (*Device, error) {
 	if device == nil {
 		return nil, errors.New("hidapi: failed to open device")
 	}
-	return &Device{
+	return &HidDevice{
 		DeviceInfo: info,
 		device:     device,
 	}, nil
 }
 
 // Device is a live HID USB connected device handle.
-type Device struct {
+type HidDevice struct {
 	DeviceInfo // Embed the infos for easier access
 
 	device *C.hid_device // Low level HID device to communicate through
@@ -183,7 +183,7 @@ type Device struct {
 }
 
 // Close releases the HID USB device handle.
-func (dev *Device) Close() error {
+func (dev *HidDevice) Close() error {
 	dev.lock.Lock()
 	defer dev.lock.Unlock()
 
@@ -198,7 +198,7 @@ func (dev *Device) Close() error {
 //
 // Write will send the data on the first OUT endpoint, if one exists. If it does
 // not, it will send the data through the Control Endpoint (Endpoint 0).
-func (dev *Device) Write(b []byte) (int, error) {
+func (dev *HidDevice) Write(b []byte) (int, error) {
 	// Abort if nothing to write
 	if len(b) == 0 {
 		return 0, nil
@@ -241,7 +241,7 @@ func (dev *Device) Write(b []byte) (int, error) {
 }
 
 // Read retrieves an input report from a HID device.
-func (dev *Device) Read(b []byte) (int, error) {
+func (dev *HidDevice) Read(b []byte) (int, error) {
 	// Aborth if nothing to read
 	if len(b) == 0 {
 		return 0, nil
